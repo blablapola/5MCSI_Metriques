@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Prévisions Météo - Histogramme des Températures</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      // Chargement de la bibliothèque Google Charts
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Fonction pour extraire les données de l'API OpenWeather
+      function extractForecastData(apiResponse) {
+        var forecastData = [['Date Time', 'Temperature (K)']]; // Inclure les titres pour Google Charts
+
+        apiResponse.list.forEach(function(forecast) {
+          var dateTime = forecast.dt_txt; // Extraire la date et l'heure
+          var temperature = forecast.main.temp; // Extraire la température
+          forecastData.push([dateTime, temperature]); // Ajouter au tableau
+        });
+
+        return forecastData;
+      }
+
+      // Exemple de données API (remplacer par la vraie réponse)
+      var apiResponse = {
+        "cod": "200",
+        "message": 0.0082,
+        "cnt": 40,
+        "list": [
+          {
+            "dt": 1485799200,
+            "main": { "temp": 283.76 },
+            "dt_txt": "2017-01-30 18:00:00"
+          },
+          {
+            "dt": 1485810000,
+            "main": { "temp": 282.56 },
+            "dt_txt": "2017-01-30 21:00:00"
+          },
+          {
+            "dt": 1485820800,
+            "main": { "temp": 282.30 },
+            "dt_txt": "2017-01-31 00:00:00"
+          },
+          {
+            "dt": 1485831600,
+            "main": { "temp": 282.27 },
+            "dt_txt": "2017-01-31 03:00:00"
+          },
+          {
+            "dt": 1485842400,
+            "main": { "temp": 282.66 },
+            "dt_txt": "2017-01-31 06:00:00"
+          },
+          {
+            "dt": 1485853200,
+            "main": { "temp": 282.78 },
+            "dt_txt": "2017-01-31 09:00:00"
+          },
+          {
+            "dt": 1485864000,
+            "main": { "temp": 283.33 },
+            "dt_txt": "2017-01-31 12:00:00"
+          },
+          {
+            "dt": 1485874800,
+            "main": { "temp": 284.65 },
+            "dt_txt": "2017-01-31 15:00:00"
+          },
+          {
+            "dt": 1485885600,
+            "main": { "temp": 284.09 },
+            "dt_txt": "2017-01-31 18:00:00"
+          }
+          // Ajoute d'autres prévisions ici
+        ],
+        "city": {
+          "id": 1907296,
+          "name": "Tawarano",
+          "coord": { "lat": 35.0164, "lon": 139.0077 },
+          "country": "none"
+        }
+      };
+
+      // Fonction pour dessiner le graphique
+      function drawChart() {
+        // Extraire les données formatées depuis l'API
+        var data = google.visualization.arrayToDataTable(extractForecastData(apiResponse));
+
+        // Options du graphique
+        var options = {
+          title: 'Prévisions des Températures à Tawarano',
+          hAxis: {title: 'Date et Heure', slantedText: true, slantedTextAngle: 45},
+          vAxis: {title: 'Température (Kelvin)'},
+          legend: 'none',
+          height: 500
+        };
+
+        // Créer et dessiner le graphique dans le div spécifié
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Prévisions Météo pour Tawarano</h1>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>
