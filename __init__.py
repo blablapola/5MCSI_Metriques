@@ -7,6 +7,12 @@ import sqlite3
                                                                                                                                        
 app = Flask(__name__)                                                                                                                  
 
+# Route pour afficher la page avec le graphique
+@app.route('/commits/')
+def show_commits():
+    data = get_commits()
+    return render_template('commits.html', chart_data=data)
+
 @app.route('/')
 def hello_world():
     return render_template('hello.html')
