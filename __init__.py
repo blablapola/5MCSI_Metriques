@@ -12,6 +12,10 @@ def hello_world():
     return render_template('hello.html')
   #test comit
 
+@app.route('/histogramme/')
+def histogramme():
+    return render_template('histogramme.html')
+
 @app.route("/contact/")
 def MaPremiereAPI():
     return "<h2>Ma page de contact</h2>"
